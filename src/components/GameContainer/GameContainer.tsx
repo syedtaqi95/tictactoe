@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Square from "components/Square";
 import { Button, Text, VStack, Grid, GridItem } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
@@ -6,9 +6,17 @@ import { GameState } from "types";
 
 const GameContainer = () => {
   const [gameState, setGameState] = useState(GameState.Initial);
+  const [winner, setWinner] = useState<null | 1 | 2>(null);
+
+  useEffect(() => {
+    if (winner) {
+      setGameState(GameState.Done);
+    }
+  }, [winner]);
 
   const handleResetGame: () => void = () => {
     setGameState(GameState.Initial);
+    setWinner(null);
   };
 
   const displayGameStatus: () => string = () => {
@@ -19,6 +27,8 @@ const GameContainer = () => {
         return "Next turn: Player 1";
       case GameState.Player2Turn:
         return "Next turn: Player 2";
+      case GameState.Done:
+        return `Player ${winner} wins`;
       default:
         return "";
     }
