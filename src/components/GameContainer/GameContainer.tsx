@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import Board from "components/Board";
 import { Button, Text, VStack } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
-
-enum GameState {
-  Initial,
-  Player1Turn,
-  Player2Turn,
-  Done,
-}
+import { GameState } from "types";
 
 const GameContainer = () => {
   const [gameState, setGameState] = useState(GameState.Initial);
@@ -32,7 +26,7 @@ const GameContainer = () => {
 
   return (
     <VStack as="section">
-      <Board />
+      <Board gameState={gameState} />
 
       <Text>{displayGameStatus()}</Text>
 
