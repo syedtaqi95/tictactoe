@@ -40,10 +40,13 @@ const GameContainer = () => {
 
   return (
     <VStack as="section">
+      {/* Game board */}
       <Grid templateColumns="repeat(3, 1fr)">{grid}</Grid>
 
+      {/* Game status */}
       <Text>{displayGameStatus()}</Text>
 
+      {/* Reset button */}
       <Button gap={2} onClick={handleResetGame}>
         <Text>Reset Game </Text>
         <Icon inline={true} height="1.4rem" icon="system-uicons:reset" />

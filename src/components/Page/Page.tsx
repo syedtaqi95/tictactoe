@@ -49,7 +49,6 @@ const Page = () => {
           </Text>
         </VStack>
 
-        {/* Game board */}
         <GameContainer />
       </VStack>
     </Container>
