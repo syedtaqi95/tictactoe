@@ -7,6 +7,7 @@ import {
   Container,
   Flex,
   Text,
+  Divider,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import GameContainer from "components/GameContainer";
@@ -50,6 +51,13 @@ const Page = () => {
         </VStack>
 
         <GameContainer />
+
+        {/* Footer */}
+        <VStack w="100%">
+          <Divider colorScheme="blackAlpha" />
+          <Text>Built with React and TypeScript.</Text>
+          <Text>Created by Syed Taqi Haider, 2022.</Text>
+        </VStack>
       </VStack>
     </Container>
   );
