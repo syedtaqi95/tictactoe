@@ -9,7 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
-import Board from "../Board";
+import GameContainer from "components/GameContainer";
 
 const Page = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -37,7 +37,8 @@ const Page = () => {
           </Heading>
           <Text>
             1. The game is played on a 3x3 grid of squares. <br />
-            2. Two players take turns putting their marks in empty squares. <br />
+            2. Two players take turns putting their marks in empty squares.{" "}
+            <br />
             3. The first player to get 3 of their marks in a row (up, down,
             across, or diagonally) is the winner. <br />
             4. When all 9 squares are full, the game is over. If no player has 3
@@ -48,7 +49,8 @@ const Page = () => {
           </Text>
         </VStack>
 
-        <Board />
+        {/* Game board */}
+        <GameContainer />
       </VStack>
     </Container>
   );

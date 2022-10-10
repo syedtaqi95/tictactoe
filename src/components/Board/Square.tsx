@@ -7,7 +7,7 @@ const Square = ({ row, col }: { row: Number; col: Number }) => {
     <GridItem
       h="20"
       w="20"
-      onClick={() => console.log(row, col)}
+      onClick={() => console.log(`Clicked (${row}, ${col})`)}
       style={{ cursor: "pointer" }}
     >
       <Box w="100%" h="100%" border="1px" borderColor={borderColor} />
