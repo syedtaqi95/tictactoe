@@ -4,3 +4,9 @@ export enum GameState {
   Player2Turn,
   Done,
 }
+
+export enum SquareState {
+  Empty,
+  O,
+  X
+}

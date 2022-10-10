@@ -1,7 +1,7 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import React from "react";
 import Square from "./Square";
-import { GameState } from "types";
+import { GameState, SquareState } from "types";
 
 const Board = ({ gameState }: { gameState: GameState }) => {
   // Create a 3x3 grid of Squares
@@ -13,7 +13,7 @@ const Board = ({ gameState }: { gameState: GameState }) => {
         w="20"
         style={{ cursor: "pointer" }}
       >
-        <Square />
+        <Square squareState={SquareState.Empty} />
       </GridItem>
     ))
   );
