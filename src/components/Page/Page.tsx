@@ -18,7 +18,7 @@ const Page = () => {
     <Container maxW="5xl" p={4}>
       <VStack h="100%" spacing={12} mt={4}>
         {/* Title and Color Mode Button */}
-        <Flex w="100%" maxW="6xl" justify="space-between">
+        <Flex as="nav" w="100%" maxW="6xl" justify="space-between">
           <Icon inline={true} height="3rem" icon="game-icons:tic-tac-toe" />
           <Heading as="h1">Tic Tac Toe</Heading>
           <Button height="3rem" onClick={toggleColorMode}>
@@ -31,7 +31,7 @@ const Page = () => {
         </Flex>
 
         {/* Game Instructions */}
-        <VStack w="100%" align="flex-start">
+        <VStack as="section" w="100%" align="flex-start">
           <Heading as="h2" size="lg">
             Game Rules
           </Heading>
