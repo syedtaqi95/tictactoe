@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Board from "components/Board";
-import { Button, Text, VStack } from "@chakra-ui/react";
+import Square from "components/Square";
+import { Button, Text, VStack, Grid, GridItem } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { GameState } from "types";
 
@@ -24,9 +24,23 @@ const GameContainer = () => {
     }
   };
 
+  // Create a 3x3 grid of Squares
+  const grid = [...Array(3).keys()].map((row) =>
+    [...Array(3).keys()].map((col) => (
+      <GridItem
+        key={`${row} ${col}`}
+        h="20"
+        w="20"
+        style={{ cursor: "pointer" }}
+      >
+        <Square gameState={gameState} setGameState={setGameState} />
+      </GridItem>
+    ))
+  );
+
   return (
     <VStack as="section">
-      <Board gameState={gameState} />
+      <Grid templateColumns="repeat(3, 1fr)">{grid}</Grid>
 
       <Text>{displayGameStatus()}</Text>
 
