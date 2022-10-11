@@ -10,7 +10,7 @@ const GameContainer = () => {
 
   useEffect(() => {
     if (winner) {
-      setGameState(GameState.Done);
+      setGameState(GameState.Winner);
     }
   }, [winner]);
 
@@ -27,8 +27,10 @@ const GameContainer = () => {
         return "Next turn: Player 1";
       case GameState.Player2Turn:
         return "Next turn: Player 2";
-      case GameState.Done:
+      case GameState.Winner:
         return `Player ${winner} wins`;
+      case GameState.Tie:
+        return "Game ended in a draw";
       default:
         return "";
     }
