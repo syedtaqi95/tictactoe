@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Square from "components/Square";
 import { Button, Text, VStack, Grid, GridItem } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
@@ -7,14 +7,17 @@ import { GameState, SquareState } from "types";
 const GameContainer = () => {
   const boardLen = 3;
 
-  // State variables
+  // State and Ref variables
   const [gameState, setGameState] = useState(GameState.Initial);
   const [boardState, setBoardState] = useState<SquareState[]>(
     Array(boardLen * boardLen).fill(SquareState.Empty)
   );
   const [winner, setWinner] = useState<null | 1 | 2>(null);
+  const remainingMoves = useRef(boardLen * boardLen);
 
-  const findWinner = (newBoardState: SquareState[]) => {
+  const findWinner: (newBoardState: SquareState[]) => boolean = (
+    newBoardState
+  ) => {
     const winCombos = [
       [0, 1, 2],
       [3, 4, 5],
@@ -39,15 +42,20 @@ const GameContainer = () => {
         } else {
           setWinner(2);
         }
+        return true;
       }
     }
+    return false;
   };
 
   // Handler for player move
   const handleClick = (idx: number) => {
     const squareState = boardState[idx];
+
     if (squareState === SquareState.Empty) {
       let newBoardState = [...boardState];
+      remainingMoves.current -= 1;
+      
       if (
         gameState === GameState.Initial ||
         gameState === GameState.Player1Turn
@@ -63,7 +71,9 @@ const GameContainer = () => {
       setBoardState(newBoardState);
 
       // Check if there is a winner
-      findWinner(newBoardState);
+      if (!findWinner(newBoardState) && remainingMoves.current === 0) {
+        setGameState(GameState.Tie);
+      }
     }
   };
 
@@ -72,6 +82,7 @@ const GameContainer = () => {
     setGameState(GameState.Initial);
     setBoardState(Array(9).fill(SquareState.Empty));
     setWinner(null);
+    remainingMoves.current = boardLen * boardLen;
   };
 
   const displayGameStatus: () => string = () => {
