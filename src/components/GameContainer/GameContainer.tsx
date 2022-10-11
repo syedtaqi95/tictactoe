@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Square from "components/Square";
 import { Button, Text, VStack, Grid, GridItem } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
-import { GameState, SquareState } from "types";
+import { GameState, SquareState, SquareFill } from "types";
 
 const GameContainer = () => {
   const boardLen = 3;
@@ -10,7 +10,10 @@ const GameContainer = () => {
   // State and Ref variables
   const [gameState, setGameState] = useState(GameState.Initial);
   const [boardState, setBoardState] = useState<SquareState[]>(
-    Array(boardLen * boardLen).fill(SquareState.Empty)
+    Array(boardLen * boardLen).fill({
+      fill: SquareFill.Empty,
+      winner: null,
+    })
   );
   const [winner, setWinner] = useState<null | 1 | 2>(null);
   const remainingMoves = useRef(boardLen * boardLen);
@@ -32,12 +35,15 @@ const GameContainer = () => {
     for (let i = 0; i < winCombos.length; i++) {
       const [a, b, c] = winCombos[i];
       if (
-        newBoardState[a] !== SquareState.Empty &&
-        newBoardState[a] === newBoardState[b] &&
-        newBoardState[a] === newBoardState[c]
+        newBoardState[a].fill !== SquareFill.Empty &&
+        newBoardState[a].fill === newBoardState[b].fill &&
+        newBoardState[a].fill === newBoardState[c].fill
       ) {
         setGameState(GameState.Winner);
-        if (newBoardState[a] === SquareState.X) {
+        newBoardState[a].winner = true;
+        newBoardState[b].winner = true;
+        newBoardState[c].winner = true;
+        if (newBoardState[a].fill === SquareFill.X) {
           setWinner(1);
         } else {
           setWinner(2);
@@ -50,27 +56,29 @@ const GameContainer = () => {
 
   // Handler for player move
   const handleClick = (idx: number) => {
-    const squareState = boardState[idx];
-
-    if (squareState === SquareState.Empty) {
-      let newBoardState = [...boardState];
+    if (boardState[idx].fill === SquareFill.Empty) {
+      let newBoardState: SquareState[] = [];
+      for (const square of boardState) {
+        newBoardState.push({ ...square });
+      }
       remainingMoves.current -= 1;
-      
+
       if (
         gameState === GameState.Initial ||
         gameState === GameState.Player1Turn
       ) {
         // Player 1 move (X)
-        newBoardState[idx] = SquareState.X;
+        newBoardState[idx].fill = SquareFill.X;
+        console.log(newBoardState);
         setGameState(GameState.Player2Turn);
       } else if (gameState === GameState.Player2Turn) {
         // Player 2 move (O)
-        newBoardState[idx] = SquareState.O;
+        newBoardState[idx].fill = SquareFill.O;
         setGameState(GameState.Player1Turn);
       }
       setBoardState(newBoardState);
 
-      // Check if there is a winner
+      // Check if there is a winner or tie
       if (!findWinner(newBoardState) && remainingMoves.current === 0) {
         setGameState(GameState.Tie);
       }
@@ -80,7 +88,12 @@ const GameContainer = () => {
   // Reset button handler
   const handleResetGame: () => void = () => {
     setGameState(GameState.Initial);
-    setBoardState(Array(9).fill(SquareState.Empty));
+    setBoardState(
+      Array(boardLen * boardLen).fill({
+        fill: SquareFill.Empty,
+        winner: null,
+      })
+    );
     setWinner(null);
     remainingMoves.current = boardLen * boardLen;
   };

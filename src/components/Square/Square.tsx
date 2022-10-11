@@ -1,6 +1,6 @@
 import React from "react";
 import { Center, useColorModeValue } from "@chakra-ui/react";
-import { SquareState } from "types";
+import { SquareState, SquareFill } from "types";
 import { Icon } from "@iconify/react";
 
 const Square = ({
@@ -12,11 +12,13 @@ const Square = ({
   squareState: SquareState;
   handleClick: (idx: number) => void;
 }) => {
+  const winBgColor = useColorModeValue("teal.200", "teal.600");
+
   const displayIcon: () => string = () => {
-    switch (squareState) {
-      case SquareState.O:
+    switch (squareState.fill) {
+      case SquareFill.O:
         return "akar-icons:circle";
-      case SquareState.X:
+      case SquareFill.X:
         return "akar-icons:cross";
       default:
         return "";
@@ -29,6 +31,7 @@ const Square = ({
       h="100%"
       border="1px"
       borderColor={useColorModeValue("black", "white")}
+      bg={squareState.winner ? winBgColor : "none"}
       onClick={() => handleClick(idx)}
     >
       <Icon height="3rem" icon={displayIcon()} />

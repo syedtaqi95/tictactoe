@@ -6,8 +6,13 @@ export enum GameState {
   Tie
 }
 
-export enum SquareState {
+export enum SquareFill {
   Empty,
   O,
   X
+}
+
+export interface SquareState {
+  fill: SquareFill
+  winner: boolean | null
 }
