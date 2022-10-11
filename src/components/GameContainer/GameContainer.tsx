@@ -18,6 +18,7 @@ const GameContainer = () => {
   const [winner, setWinner] = useState<null | 1 | 2>(null);
   const remainingMoves = useRef(boardLen * boardLen);
 
+  // checks if there is a winner, sets the winning player and colours the winning squares
   const findWinner: (newBoardState: SquareState[]) => boolean = (
     newBoardState
   ) => {
@@ -54,9 +55,10 @@ const GameContainer = () => {
     return false;
   };
 
-  // Handler for player move
+  // Handler for player moves
   const handleClick = (idx: number) => {
     if (boardState[idx].fill === SquareFill.Empty) {
+      // Create a deep copy of board
       let newBoardState: SquareState[] = [];
       for (const square of boardState) {
         newBoardState.push({ ...square });
@@ -69,7 +71,6 @@ const GameContainer = () => {
       ) {
         // Player 1 move (X)
         newBoardState[idx].fill = SquareFill.X;
-        console.log(newBoardState);
         setGameState(GameState.Player2Turn);
       } else if (gameState === GameState.Player2Turn) {
         // Player 2 move (O)
