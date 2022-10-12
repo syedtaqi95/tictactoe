@@ -3,6 +3,7 @@ import Square from "components/Square";
 import { Button, Text, VStack, Grid, GridItem } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import { GameState, SquareState, SquareFill } from "types";
+import ScaleTapComponent from "components/ScaleTapComponent";
 
 const GameContainer = () => {
   const boardLen = 3;
@@ -119,12 +120,7 @@ const GameContainer = () => {
   // Create a 3x3 grid of Squares
   const grid = [...Array(boardLen).keys()].map((row) =>
     [...Array(boardLen).keys()].map((col) => (
-      <GridItem
-        key={`${row} ${col}`}
-        h="20"
-        w="20"
-        style={{ cursor: "pointer" }}
-      >
+      <GridItem key={`${row} ${col}`} h="20" w="20">
         <Square
           idx={boardLen * row + col}
           squareState={boardState[boardLen * row + col]}
@@ -143,10 +139,12 @@ const GameContainer = () => {
       <Text>{displayGameStatus()}</Text>
 
       {/* Reset button */}
-      <Button gap={2} onClick={handleResetGame}>
-        <Text>Reset Game </Text>
-        <Icon inline={true} height="1.4rem" icon="system-uicons:reset" />
-      </Button>
+      <ScaleTapComponent>
+        <Button gap={2} onClick={handleResetGame}>
+          <Text>Reset Game </Text>
+          <Icon inline={true} height="1.4rem" icon="system-uicons:reset" />
+        </Button>
+      </ScaleTapComponent>
     </VStack>
   );
 };

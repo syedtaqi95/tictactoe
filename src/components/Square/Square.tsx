@@ -2,6 +2,7 @@ import React from "react";
 import { Center, useColorModeValue } from "@chakra-ui/react";
 import { SquareState, SquareFill } from "types";
 import { Icon } from "@iconify/react";
+import { motion } from "framer-motion";
 
 const Square = ({
   idx,
@@ -12,7 +13,9 @@ const Square = ({
   squareState: SquareState;
   handleClick: (idx: number) => void;
 }) => {
-  const winBgColor = useColorModeValue("teal.200", "teal.600");
+  const winBgColor = useColorModeValue("#81E6D9", "#2C7A7B");
+  const regularColor = useColorModeValue("white", "#1A202C");
+  const borderColor = useColorModeValue("black", "white");
 
   const displayIcon: () => string = () => {
     switch (squareState.fill) {
@@ -26,16 +29,22 @@ const Square = ({
   };
 
   return (
-    <Center
-      w="100%"
-      h="100%"
-      border="1px"
-      borderColor={useColorModeValue("black", "white")}
-      bg={squareState.winner ? winBgColor : "none"}
+    <motion.div
+      style={{
+        width: "100%",
+        height: "100%",
+        border: `solid 1px ${borderColor}`,
+        cursor: "pointer",
+        backgroundColor: `${squareState.winner ? winBgColor : regularColor}`,
+      }}
       onClick={() => handleClick(idx)}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 1 }}
     >
-      <Icon height="3rem" icon={displayIcon()} />
-    </Center>
+      <Center w="100%" h="100%">
+        <Icon height="3rem" icon={displayIcon()} />
+      </Center>
+    </motion.div>
   );
 };
 

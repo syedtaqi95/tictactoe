@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react";
 import GameContainer from "components/GameContainer";
+import ScaleTapComponent from "components/ScaleTapComponent";
 
 const Page = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -22,13 +23,15 @@ const Page = () => {
         <Flex as="nav" w="100%" maxW="6xl" justify="space-between">
           <Icon inline={true} height="3rem" icon="game-icons:tic-tac-toe" />
           <Heading as="h1">Tic Tac Toe</Heading>
-          <Button height="3rem" onClick={toggleColorMode}>
-            <Icon
-              icon={colorMode === "light" ? "bi:moon-fill" : "bi:sun"}
-              inline={true}
-              height="1.4rem"
-            />
-          </Button>
+          <ScaleTapComponent>
+            <Button height="3rem" onClick={toggleColorMode}>
+              <Icon
+                icon={colorMode === "light" ? "bi:moon-fill" : "bi:sun"}
+                inline={true}
+                height="1.4rem"
+              />
+            </Button>
+          </ScaleTapComponent>
         </Flex>
 
         {/* Game Instructions */}
