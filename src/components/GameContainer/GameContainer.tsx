@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
 import Square from "components/Square";
-import { Text, VStack, Grid, GridItem } from "@chakra-ui/react";
+import { Text, VStack, Grid, GridItem, Flex } from "@chakra-ui/react";
 import { GameState, SquareState, SquareFill } from "types";
 import TextIconButton from "components/TextIconButton";
+import Leaderboard from "components/Leaderboard";
 
 const GameContainer = () => {
   const boardLen = 3;
@@ -130,7 +131,7 @@ const GameContainer = () => {
   );
 
   return (
-    <VStack as="section">
+    <VStack w="100%" as="section">
       {/* Game board */}
       <Grid templateColumns={`repeat(${boardLen}, 1fr)`}>{grid}</Grid>
 
@@ -152,6 +153,11 @@ const GameContainer = () => {
           icon="carbon:save"
         />
       ) : null}
+
+      <Flex w="100%" direction="row" wrap="wrap" justify="space-around" gap={8}>
+        {/* Leaderboard */}
+        <Leaderboard />
+      </Flex>
     </VStack>
   );
 };
