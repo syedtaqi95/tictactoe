@@ -10,13 +10,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-const Leaderboard = ({
-  player1Score,
-  player2Score,
-}: {
-  player1Score: number;
-  player2Score: number;
-}) => {
+const Leaderboard = ({ results }: { results: (1 | 2 | null)[] }) => {
   return (
     <TableContainer>
       <Table variant="simple">
@@ -29,8 +23,12 @@ const Leaderboard = ({
         </Thead>
         <Tbody>
           <Tr>
-            <Td>{player1Score}</Td>
-            <Td>{player2Score}</Td>
+            <Td>
+              {results.reduce((prev, cur) => (cur === 1 ? prev + 1 : prev), 0)}
+            </Td>
+            <Td>
+              {results.reduce((prev, cur) => (cur === 2 ? prev + 1 : prev), 0)}
+            </Td>
           </Tr>
         </Tbody>
       </Table>

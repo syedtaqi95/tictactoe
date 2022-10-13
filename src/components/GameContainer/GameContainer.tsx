@@ -22,10 +22,6 @@ const GameContainer = () => {
   const remainingMoves = useRef(boardLen * boardLen);
 
   // Local storage - previous leaderboard and results
-  const [leaderboard, setLeaderboard] = useLocalStorage("leaderboard", {
-    p1: 0,
-    p2: 0,
-  });
   const [results, setResults] = useLocalStorage("results", []);
 
   // checks if there is a winner, sets the winning player and colours the winning squares
@@ -110,13 +106,7 @@ const GameContainer = () => {
   };
 
   // "Add to Leaderboard" button handler
-  const handleAddToLeaderboard = () => {
-    // Update leaderboard
-    let newLeaderboard = { ...leaderboard };
-    if (gameState === GameState.Winner)
-      winner === 1 ? newLeaderboard.p1++ : newLeaderboard.p2++;
-    setLeaderboard(newLeaderboard);
-
+  const handleSaveResult = () => {
     // Update results table
     let newResults = [...results];
     newResults.push(winner);
@@ -128,7 +118,6 @@ const GameContainer = () => {
 
   // "Reset History" button handler
   const handleResetHistory = () => {
-    setLeaderboard({ p1: 0, p2: 0 });
     setResults([]);
   };
 
@@ -181,7 +170,7 @@ const GameContainer = () => {
       {/* Add to leaderboard button */}
       {gameState === GameState.Tie || gameState === GameState.Winner ? (
         <TextIconButton
-          handleClick={handleAddToLeaderboard}
+          handleClick={handleSaveResult}
           text="Add to leaderboard "
           icon="carbon:save"
         />
@@ -189,10 +178,7 @@ const GameContainer = () => {
 
       {/* Leaderboard and Results */}
       <Flex w="100%" direction="row" wrap="wrap" justify="space-around" gap={8}>
-        <Leaderboard
-          player1Score={leaderboard.p1}
-          player2Score={leaderboard.p2}
-        />
+        <Leaderboard results={results}        />
         <GameResults results={results} />
       </Flex>
 
