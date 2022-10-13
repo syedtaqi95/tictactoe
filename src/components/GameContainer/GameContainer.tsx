@@ -1,9 +1,8 @@
 import React, { useState, useRef } from "react";
 import Square from "components/Square";
-import { Button, Text, VStack, Grid, GridItem } from "@chakra-ui/react";
-import { Icon } from "@iconify/react";
+import { Text, VStack, Grid, GridItem } from "@chakra-ui/react";
 import { GameState, SquareState, SquareFill } from "types";
-import ScaleTapComponent from "components/ScaleTapComponent";
+import ResetButton from "components/ResetButton";
 
 const GameContainer = () => {
   const boardLen = 3;
@@ -139,12 +138,7 @@ const GameContainer = () => {
       <Text>{displayGameStatus()}</Text>
 
       {/* Reset button */}
-      <ScaleTapComponent>
-        <Button gap={2} onClick={handleResetGame}>
-          <Text>Reset Game </Text>
-          <Icon inline={true} height="1.4rem" icon="system-uicons:reset" />
-        </Button>
-      </ScaleTapComponent>
+      <ResetButton handleResetGame={handleResetGame} />
     </VStack>
   );
 };
