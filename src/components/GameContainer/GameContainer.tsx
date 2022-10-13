@@ -39,13 +39,14 @@ const GameContainer = () => {
       [2, 4, 6],
     ];
 
-    for (let i = 0; i < winCombos.length; i++) {
-      const [a, b, c] = winCombos[i];
+    for (let winCombo of winCombos) {
+      const [a, b, c] = winCombo;
       if (
         newBoardState[a].fill !== SquareFill.Empty &&
         newBoardState[a].fill === newBoardState[b].fill &&
         newBoardState[a].fill === newBoardState[c].fill
       ) {
+        // found winner
         setGameState(GameState.Winner);
         newBoardState[a].winner = true;
         newBoardState[b].winner = true;
@@ -58,18 +59,19 @@ const GameContainer = () => {
         return true;
       }
     }
+
+    // Winner not found
     return false;
   };
 
   // Handler for player moves
-  const handleClick = (idx: number) => {
+  const handleSquareClick = (idx: number) => {
     if (boardState[idx].fill === SquareFill.Empty) {
       // Create a deep copy of board
       let newBoardState: SquareState[] = [];
       for (const square of boardState) {
         newBoardState.push({ ...square });
       }
-      remainingMoves.current -= 1;
 
       if (
         gameState === GameState.Initial ||
@@ -84,6 +86,7 @@ const GameContainer = () => {
         setGameState(GameState.Player1Turn);
       }
       setBoardState(newBoardState);
+      remainingMoves.current -= 1;
 
       // Check if there is a winner or tie
       if (!findWinner(newBoardState) && remainingMoves.current === 0) {
@@ -146,7 +149,7 @@ const GameContainer = () => {
         <Square
           idx={boardLen * row + col}
           squareState={boardState[boardLen * row + col]}
-          handleClick={handleClick}
+          handleClick={handleSquareClick}
         />
       </GridItem>
     ))
@@ -178,7 +181,7 @@ const GameContainer = () => {
 
       {/* Leaderboard and Results */}
       <Flex w="100%" direction="row" wrap="wrap" justify="space-around" gap={8}>
-        <Leaderboard results={results}        />
+        <Leaderboard results={results} />
         <GameResults results={results} />
       </Flex>
 
