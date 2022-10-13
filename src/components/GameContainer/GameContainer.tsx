@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Square from "components/Square";
 import { Text, VStack, Grid, GridItem } from "@chakra-ui/react";
 import { GameState, SquareState, SquareFill } from "types";
-import ResetButton from "components/ResetButton";
+import TextIconButton from "components/TextIconButton";
 
 const GameContainer = () => {
   const boardLen = 3;
@@ -138,7 +138,20 @@ const GameContainer = () => {
       <Text>{displayGameStatus()}</Text>
 
       {/* Reset button */}
-      <ResetButton handleResetGame={handleResetGame} />
+      <TextIconButton
+        display
+        handleClick={handleResetGame}
+        text="Reset game "
+        icon="system-uicons:reset"
+      />
+
+      {/* Add to leaderboard button */}
+      <TextIconButton
+        display={winner ? true : false}
+        handleClick={() => console.log("clicked")}
+        text="Add to leaderboard "
+        icon="carbon:save"
+      />
     </VStack>
   );
 };
