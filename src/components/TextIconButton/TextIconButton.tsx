@@ -7,21 +7,19 @@ const TextIconButton = ({
   handleClick,
   text,
   icon,
-  display,
 }: {
   handleClick: () => void;
   text: string;
   icon: string;
-  display: boolean;
 }) => {
-  return display ? (
+  return (
     <ScaleTapComponent>
       <Button gap={2} onClick={handleClick}>
         <Text>{text}</Text>
         <Icon inline={true} height="1.4rem" icon={icon} />
       </Button>
     </ScaleTapComponent>
-  ) : null;
+  );
 };
 
 export default TextIconButton;

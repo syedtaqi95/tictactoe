@@ -139,19 +139,19 @@ const GameContainer = () => {
 
       {/* Reset button */}
       <TextIconButton
-        display
         handleClick={handleResetGame}
         text="Reset game "
         icon="system-uicons:reset"
       />
 
       {/* Add to leaderboard button */}
-      <TextIconButton
-        display={winner ? true : false}
-        handleClick={() => console.log("clicked")}
-        text="Add to leaderboard "
-        icon="carbon:save"
-      />
+      {winner ? (
+        <TextIconButton
+          handleClick={() => console.log("clicked")}
+          text="Add to leaderboard "
+          icon="carbon:save"
+        />
+      ) : null}
     </VStack>
   );
 };
