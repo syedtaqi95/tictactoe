@@ -26,6 +26,7 @@ const GameContainer = () => {
     p1: 0,
     p2: 0,
   });
+  const [results, setResults] = useLocalStorage("results", []);
 
   // checks if there is a winner, sets the winning player and colours the winning squares
   const findWinner: (newBoardState: SquareState[]) => boolean = (
@@ -109,10 +110,24 @@ const GameContainer = () => {
   };
 
   const handleAddToLeaderboard = () => {
+    // Update leaderboard
     let newLeaderboard = { ...leaderboard };
-    winner === 1 ? newLeaderboard.p1++ : newLeaderboard.p2++;
+    if (gameState === GameState.Winner)
+      winner === 1 ? newLeaderboard.p1++ : newLeaderboard.p2++;
     setLeaderboard(newLeaderboard);
+
+    // Update results table
+    let newResults = [...results];
+    newResults.push(winner);
+    setResults(newResults);
+
+    // Reset the game
     handleResetGame();
+  };
+
+  const handleResetHistory = () => {
+    setLeaderboard({ p1: 0, p2: 0 });
+    setResults([]);
   };
 
   const displayGameStatus: () => string = () => {
@@ -146,7 +161,7 @@ const GameContainer = () => {
   );
 
   return (
-    <VStack w="100%" as="section">
+    <VStack w="100%" as="section" gap={2}>
       {/* Game board */}
       <Grid templateColumns={`repeat(${boardLen}, 1fr)`}>{grid}</Grid>
 
@@ -161,7 +176,7 @@ const GameContainer = () => {
       />
 
       {/* Add to leaderboard button */}
-      {winner ? (
+      {gameState === GameState.Tie || gameState === GameState.Winner ? (
         <TextIconButton
           handleClick={handleAddToLeaderboard}
           text="Add to leaderboard "
@@ -175,8 +190,15 @@ const GameContainer = () => {
           player1Score={leaderboard.p1}
           player2Score={leaderboard.p2}
         />
-        <GameResults />
+        <GameResults results={results} />
       </Flex>
+
+      {/* Reset History Button */}
+      <TextIconButton
+        handleClick={handleResetHistory}
+        text="Reset history "
+        icon="system-uicons:reset"
+      />
     </VStack>
   );
 };

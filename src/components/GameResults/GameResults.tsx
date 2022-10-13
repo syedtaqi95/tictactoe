@@ -10,7 +10,7 @@ import {
   Td,
 } from "@chakra-ui/react";
 
-const GameResults = () => {
+const GameResults = ({ results }: { results: (1 | 2 | null)[] }) => {
   return (
     <TableContainer>
       <Table variant="simple">
@@ -18,14 +18,16 @@ const GameResults = () => {
         <Thead>
           <Tr>
             <Th>Game #</Th>
-            <Th>Winner</Th>
+            <Th>Result</Th>
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td>1</Td>
-            <Td>Player 1</Td>
-          </Tr>
+          {results.map((res, i) => (
+            <Tr key={i}>
+              <Td>{i + 1}</Td>
+              <Td>{res ? `Player ${res} win` : "Draw"}</Td>
+            </Tr>
+          ))}
         </Tbody>
       </Table>
     </TableContainer>
