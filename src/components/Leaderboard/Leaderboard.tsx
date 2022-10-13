@@ -10,7 +10,13 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-const Leaderboard = () => {
+const Leaderboard = ({
+  player1Score,
+  player2Score,
+}: {
+  player1Score: number;
+  player2Score: number;
+}) => {
   return (
     <TableContainer>
       <Table variant="simple">
@@ -23,8 +29,8 @@ const Leaderboard = () => {
         </Thead>
         <Tbody>
           <Tr>
-            <Td>2</Td>
-            <Td>3</Td>
+            <Td>{player1Score}</Td>
+            <Td>{player2Score}</Td>
           </Tr>
         </Tbody>
       </Table>

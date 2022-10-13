@@ -4,6 +4,8 @@ import { Text, VStack, Grid, GridItem, Flex } from "@chakra-ui/react";
 import { GameState, SquareState, SquareFill } from "types";
 import TextIconButton from "components/TextIconButton";
 import Leaderboard from "components/Leaderboard";
+import GameResults from "components/GameResults";
+import useLocalStorage from "hooks/useLocalStorage";
 
 const GameContainer = () => {
   const boardLen = 3;
@@ -18,6 +20,12 @@ const GameContainer = () => {
   );
   const [winner, setWinner] = useState<null | 1 | 2>(null);
   const remainingMoves = useRef(boardLen * boardLen);
+
+  // Local storage - previous leaderboard and results
+  const [leaderboard, setLeaderboard] = useLocalStorage("leaderboard", {
+    p1: 0,
+    p2: 0,
+  });
 
   // checks if there is a winner, sets the winning player and colours the winning squares
   const findWinner: (newBoardState: SquareState[]) => boolean = (
@@ -88,7 +96,7 @@ const GameContainer = () => {
   };
 
   // Reset button handler
-  const handleResetGame: () => void = () => {
+  const handleResetGame = () => {
     setGameState(GameState.Initial);
     setBoardState(
       Array(boardLen * boardLen).fill({
@@ -98,6 +106,13 @@ const GameContainer = () => {
     );
     setWinner(null);
     remainingMoves.current = boardLen * boardLen;
+  };
+
+  const handleAddToLeaderboard = () => {
+    let newLeaderboard = { ...leaderboard };
+    winner === 1 ? newLeaderboard.p1++ : newLeaderboard.p2++;
+    setLeaderboard(newLeaderboard);
+    handleResetGame();
   };
 
   const displayGameStatus: () => string = () => {
@@ -148,15 +163,19 @@ const GameContainer = () => {
       {/* Add to leaderboard button */}
       {winner ? (
         <TextIconButton
-          handleClick={() => console.log("clicked")}
+          handleClick={handleAddToLeaderboard}
           text="Add to leaderboard "
           icon="carbon:save"
         />
       ) : null}
 
+      {/* Leaderboard and Results */}
       <Flex w="100%" direction="row" wrap="wrap" justify="space-around" gap={8}>
-        {/* Leaderboard */}
-        <Leaderboard />
+        <Leaderboard
+          player1Score={leaderboard.p1}
+          player2Score={leaderboard.p2}
+        />
+        <GameResults />
       </Flex>
     </VStack>
   );
