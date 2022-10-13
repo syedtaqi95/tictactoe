@@ -109,6 +109,7 @@ const GameContainer = () => {
     remainingMoves.current = boardLen * boardLen;
   };
 
+  // "Add to Leaderboard" button handler
   const handleAddToLeaderboard = () => {
     // Update leaderboard
     let newLeaderboard = { ...leaderboard };
@@ -125,11 +126,13 @@ const GameContainer = () => {
     handleResetGame();
   };
 
+  // "Reset History" button handler
   const handleResetHistory = () => {
     setLeaderboard({ p1: 0, p2: 0 });
     setResults([]);
   };
 
+  // Returns the game status as a string
   const displayGameStatus: () => string = () => {
     switch (gameState) {
       case GameState.Initial:
